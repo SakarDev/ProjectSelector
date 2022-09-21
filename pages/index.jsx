@@ -1,7 +1,9 @@
+import HomeComponent from "../components/home";
+
 export default function Home() {
   return (
-    <h1 className="text-3xl font-bold underline text-red-500  ">
-      Hello from Tailwind!
-    </h1>
+    <>
+      <HomeComponent />
+    </>
   );
 }
