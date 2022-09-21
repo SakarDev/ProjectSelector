@@ -22,89 +22,97 @@ const HomeComponent = () => {
     }
   };
 
-  const handleExport = () => {
-    const headings = [["Movie", "Category", "Director", "Rating"]];
-    const wb = utils.book_new();
-    const ws = utils.json_to_sheet([]);
-    utils.sheet_add_aoa(ws, headings);
-    utils.sheet_add_json(ws, data, { origin: "A2", skipHeader: true });
-    utils.book_append_sheet(wb, ws, "Report");
-    writeFile(wb, "Movie Report.xlsx");
-  };
-
   return (
-    <>
-      <div className="row mb-2 mt-5">
+    <div>
+      <div className="row mb-6 mt-5">
         <div className="col-sm-6 offset-3">
           <div className="row">
-            <div className="col-md-6">
-              <div className="input-group">
-                <div className="custom-file">
-                  <input
-                    type="file"
-                    name="file"
-                    className="custom-file-input"
-                    id="inputGroupFile"
-                    required
-                    onChange={handleImport}
-                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                  />
-                  <label className="custom-file-label" htmlFor="inputGroupFile">
-                    Choose file
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <button
-                onClick={handleExport}
-                className="btn btn-primary float-right"
-              >
-                Export <i className="fa fa-download"></i>
-              </button>
-            </div>
+            <label
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              htmlFor="file_input"
+            >
+              Upload file
+            </label>
+            <input
+              type="file"
+              name="file"
+              id="inputGroupFile"
+              required
+              onChange={handleImport}
+              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              aria-describedby="file_input_help"
+            />
+            <p
+              className="mt-1 text-xs text-gray-500 dark:text-gray-300"
+              id="file_input_help"
+            > 
+              SVG, XLSX.
+            </p>
           </div>
         </div>
       </div>
-      <div className="row">
+
+      <div className="row clear-right">
         <div className="col-sm-6 offset-3">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Student name</th>
-                <th scope="col">Average marks</th>
-                <th scope="col">Project number</th>
-                <th scope="col">Project title</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.length ? (
-                data.map((record, index) => (
-                  <tr key={index}>
-                    <th scope="row">{index + 1}</th>
-                    <td>{record.Student_names}</td>
-                    <td>{record.Average_marks}</td>
-                    <td>{record.Project_number}</td>
-                    <td>
-                      <span className="badge bg-warning text-dark">
-                        {record.Project_title}
-                      </span>
+          <div className="overflow-x-auto relative shadow-md sm:rounded-lg ">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="py-3 px-6">
+                    ID
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Project title
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Project number
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Student name
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Average marks
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {data.length ? (
+                  data.map((record, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {index + 1}
+                      </th>
+                      <td>
+                        <span className="badge bg-warning text-dark">
+                          {record.Project_title}
+                        </span>
+                      </td>
+                      <td className="py-4 px-6">{record.Project_number}</td>
+                      <td className="py-4 px-6">{record.Student_names}</td>
+                      <td className="py-4 px-6">{record.Average_marks}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr className="bg-white border-b h-24 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <td colSpan="5" className="text-center">
+                      No data Found.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="text-center">
-                    No data Found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
