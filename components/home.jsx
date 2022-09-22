@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { read, utils, writeFile } from "xlsx";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 const HomeComponent = () => {
   const [data, setData] = useState([]);
@@ -22,8 +24,26 @@ const HomeComponent = () => {
     }
   };
 
+  useEffect(() => {
+    data.length && addDataToFirebase(data);
+  }, [data]);
+
+  async function addDataToFirebase(data) {
+    console.log("run bwwwwww");
+    try {
+      const docRef = await addDoc(collection(db, "users"), {
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
   return (
-    <div>
+    <>
       <div className="row mb-6 mt-5">
         <div className="col-sm-6 offset-3">
           <div className="row">
@@ -46,7 +66,7 @@ const HomeComponent = () => {
             <p
               className="mt-1 text-xs text-gray-500 dark:text-gray-300"
               id="file_input_help"
-            > 
+            >
               SVG, XLSX.
             </p>
           </div>
@@ -112,7 +132,7 @@ const HomeComponent = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
