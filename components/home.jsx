@@ -29,14 +29,35 @@ const HomeComponent = () => {
   }, [data]);
 
   async function addDataToFirebase(data) {
-    console.log("run bwwwwww");
     try {
-      const docRef = await addDoc(collection(db, "users"), {
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815,
-      });
-      console.log("Document written with ID: ", docRef.id);
+      let copyData = {};
+
+      let projectTitle = {};
+      let projectNumber = {};
+      let studentNames = {};
+      let averageMarks = {};
+
+      for (let i = 0; i < data.length; i++) {
+        projectTitle[i] = data[i].Project_title;
+        projectNumber[i] = data[i].Project_number;
+
+        // this check is performed to avoid the error of undefined
+        data[i]?.Student_names
+          ? (studentNames[i] = data[i].Student_names)
+          : null;
+        data[i]?.Average_marks
+          ? (averageMarks[i] = data[i].Average_marks)
+          : null;
+      }
+
+      copyData = {
+        projectTitle,
+        projectNumber,
+        studentNames,
+        averageMarks,
+      };
+
+      await addDoc(collection(db, "submitedForm"), copyData);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
