@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -8,9 +9,9 @@ const Nav = () => {
   return (
     <nav className="bg-white border-gray-200 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
-        <a href="#" className="flex items-center">
+        <a href="/" className="flex items-center">
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-            Project-selector
+            <Image height={30} width={30} src={"/logo.png"} />
           </span>
         </a>
         <button

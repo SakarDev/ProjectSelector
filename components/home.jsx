@@ -6,6 +6,7 @@ import { db } from "../firebaseConfig";
 const HomeComponent = () => {
   const [data, setData] = useState([]);
 
+  // function to read excel file then convert to json
   const handleImport = ($event) => {
     const files = $event.target.files;
     if (files.length) {
@@ -24,6 +25,7 @@ const HomeComponent = () => {
     }
   };
 
+  // whenever data changes (meaning new excel file is uploaded), save to firebase
   useEffect(() => {
     data.length && addDataToFirebase(data);
   }, [data]);
