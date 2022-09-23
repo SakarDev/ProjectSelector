@@ -5,7 +5,6 @@ import { db } from "../../firebaseConfig";
 
 const Students = () => {
   const [data, setData] = useState([]);
-  const [rowSpanSize, setRowSpanSize] = useState(1);
 
   async function getStudents() {
     const q = query(collection(db, "submitedForm"));
@@ -19,15 +18,12 @@ const Students = () => {
     getStudents()
       .then((snapShot) => {
         snapShot.forEach((doc) => {
-          console.log("doc.data()", doc.data());
           setData((data) => [...data, doc.data()]);
-          setRowSpanSize(Object.keys(doc.data().studentNames).length);
+          // student names per each document is the same as their averages.
         });
       })
       .catch((err) => console.log(err));
   }, []);
-
-  console.log("data", data);
 
   return (
     <>
@@ -57,12 +53,15 @@ const Students = () => {
                   data.map((record, index) =>
                     Object.keys({ ...record }.studentNames).map(
                       (val, index) => (
+                        // {
+                        //   console.log(record);
+                        // }
                         <StudentRow
                           key={index}
                           index={index}
                           stdName={{ ...record }.studentNames[index]}
                           stdAvg={{ ...record }.averageMarks[index]}
-                          rowSpanSize={rowSpanSize}
+                          groupAvg={{ ...record }.groupAverage}
                         />
                       )
                     )

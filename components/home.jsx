@@ -38,6 +38,7 @@ const HomeComponent = () => {
       let projectNumber = {};
       let studentNames = {};
       let averageMarks = {};
+      let groupAverage = 0;
 
       for (let i = 0; i < data.length; i++) {
         projectTitle[i] = data[i].Project_title;
@@ -52,11 +53,18 @@ const HomeComponent = () => {
           : null;
       }
 
+      for (let i = 0; i < Object.keys(averageMarks).length; i++) {
+        groupAverage += averageMarks[i];
+      }
+      groupAverage /= Object.keys(averageMarks).length;
+      groupAverage = groupAverage.toFixed(4);
+
       copyData = {
         projectTitle,
         projectNumber,
         studentNames,
         averageMarks,
+        groupAverage,
       };
 
       await addDoc(collection(db, "submitedForm"), copyData);
