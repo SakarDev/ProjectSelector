@@ -19,7 +19,6 @@ const Students = () => {
       .then((snapShot) => {
         snapShot.forEach((doc) => {
           setData((data) => [...data, doc.data()]);
-          // student names per each document is the same as their averages.
         });
       })
       .catch((err) => console.log(err));
@@ -53,9 +52,6 @@ const Students = () => {
                   data.map((record, index) =>
                     Object.keys({ ...record }.studentNames).map(
                       (val, index) => (
-                        // {
-                        //   console.log(record);
-                        // }
                         <StudentRow
                           key={index}
                           index={index}
