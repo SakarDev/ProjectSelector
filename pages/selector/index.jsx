@@ -1,7 +1,8 @@
 import SelectorRows from "../../components/SelectorRows";
-import { useEffect, useState } from "react";
-import { db } from "../../firebaseConfig";
+import { useState } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+import { doc, updateDoc } from "firebase/firestore";
 
 const Selector = () => {
   const [data, setData] = useState([]);
@@ -12,6 +13,11 @@ const Selector = () => {
     const querySnapshot = await getDocs(q);
     return querySnapshot;
   }
+  async function updateStudents(targetDoc, data) {
+    await updateDoc(targetDoc, {
+      selectedProject: data,
+    });
+  }
 
   function processFunction() {
     setData([]);
@@ -19,18 +25,58 @@ const Selector = () => {
     getStudents()
       .then((snapShot) => {
         snapShot.forEach((doc) => {
-          copiedData = [...copiedData, doc.data()];
-          // setData((data) => [...data, doc.data()]);
+          let d = doc.data();
+          d.id = doc.id;
+          copiedData = [...copiedData, d];
         });
 
-        setData((data) => {
-          copiedData = [...copiedData];
-          copiedData = copiedData.sort(
-            (a, b) => Number(b.groupAverage) - Number(a.groupAverage)
-          );
-          return copiedData;
-        });
-        console.log("cop", copiedData);
+        const dataToSort = [...copiedData];
+        dataToSort.sort(
+          (a, b) => Number(b.groupAverage) - Number(a.groupAverage)
+        );
+
+        copiedData = dataToSort;
+
+        var projectNumbers = [];
+
+        // we take the project numbers from the first group of student & it's the most accurate one since it's the first ranking group
+        for (
+          let i = 0;
+          i < Object.keys(copiedData[0].projectNumber).length;
+          i++
+        ) {
+          projectNumbers[i] = copiedData[0].projectNumber[i];
+        }
+
+        for (var i = 0; i < Object.keys(copiedData).length; i++) {
+          w: for (var j = 0; j < Object.keys(copiedData[i]).length; j++) {
+            for (
+              let k = 0;
+              k < Object.keys(copiedData[i].projectNumber).length;
+              k++
+            ) {
+              if (projectNumbers.includes(copiedData[i].projectNumber[k])) {
+                var currentStudentDoc = doc(
+                  db,
+                  "submitedForm",
+                  copiedData[i].id
+                );
+                updateStudents(
+                  currentStudentDoc,
+                  copiedData[i].projectNumber[k]
+                );
+                projectNumbers = projectNumbers.filter(
+                  (id) => id !== copiedData[i].projectNumber[k]
+                );
+                console.log("delted: projectNumbers", projectNumbers);
+                // the break should go out 2 loops since the project number is found for the whole group ;)
+                break w;
+              }
+            }
+          }
+        }
+
+        setData(copiedData);
       })
       .catch((err) => console.log(err));
   }
@@ -84,7 +130,7 @@ const Selector = () => {
                           key={index}
                           index={index}
                           stdName={{ ...record }.studentNames[index]}
-                          stdAvg={{ ...record }.averageMarks[index]}
+                          selectedProj={{ ...record }.selectedProject}
                           groupAvg={{ ...record }.groupAverage}
                           rowSpanSize={
                             Object.keys({ ...record }.studentNames).length
@@ -96,8 +142,7 @@ const Selector = () => {
                 ) : (
                   <tr className="bg-white border-b h-24 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td colSpan="5" className="text-center">
-                      No data Found. Click start processing button to select
-                      projects per each group.
+                      Click start processing button to select group projects.
                     </td>
                   </tr>
                 )}
