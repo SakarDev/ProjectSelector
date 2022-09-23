@@ -5,11 +5,6 @@ import { collection, getDocs, query } from "firebase/firestore";
 
 const Selector = () => {
   const [data, setData] = useState([]);
-  const [rowSpanSize, setRowSpanSize] = useState(1);
-  const dogs = [
-    { name: "fido", age: 22 },
-    { name: "will", age: 50 },
-  ];
 
   async function getStudents() {
     const q = query(collection(db, "submitedForm"));
@@ -20,21 +15,22 @@ const Selector = () => {
 
   function processFunction() {
     setData([]);
+    let copiedData = [];
     getStudents()
       .then((snapShot) => {
         snapShot.forEach((doc) => {
-          setData((data) => [...data, doc.data()]);
-          setRowSpanSize(Object.keys(doc.data().studentNames).length);
+          copiedData = [...copiedData, doc.data()];
+          // setData((data) => [...data, doc.data()]);
         });
 
-        // setData(...data.sort((a, b) => a.groupAverage - b.groupAverage));
-
-        // setData(
-        //   [...data].sort((a, b) => {
-        //      b.groupAverage - a.groupAverage;
-        //   })
-        // );
-        console.log("sorted", data);
+        setData((data) => {
+          copiedData = [...copiedData];
+          copiedData = copiedData.sort(
+            (a, b) => Number(b.groupAverage) - Number(a.groupAverage)
+          );
+          return copiedData;
+        });
+        console.log("cop", copiedData);
       })
       .catch((err) => console.log(err));
   }
@@ -81,7 +77,9 @@ const Selector = () => {
                           stdName={{ ...record }.studentNames[index]}
                           stdAvg={{ ...record }.averageMarks[index]}
                           groupAvg={{ ...record }.groupAverage}
-                          rowSpanSize={rowSpanSize}
+                          rowSpanSize={
+                            Object.keys({ ...record }.studentNames).length
+                          }
                         />
                       )
                     )
@@ -92,6 +90,7 @@ const Selector = () => {
                       No data Found. Click start processing button to select
                       projects per each group.
                     </td>
+                    {console.log("here", data)}
                   </tr>
                 )}
               </tbody>
