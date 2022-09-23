@@ -4,7 +4,8 @@ import StudentRow from "../../components/StudentRow";
 import { db } from "../../firebaseConfig";
 
 const Students = () => {
-  const [students, setStudents] = useState([]);
+  const [data, setData] = useState([]);
+  const [rowSpanSize, setRowSpanSize] = useState(1);
 
   async function getStudents() {
     const q = query(collection(db, "submitedForm"));
@@ -14,15 +15,19 @@ const Students = () => {
   }
 
   useEffect(() => {
-    setStudents([]);
+    setData([]);
     getStudents()
       .then((snapShot) => {
         snapShot.forEach((doc) => {
-          setStudents((students) => [...students, doc.data().studentNames]);
+          console.log("doc.data()", doc.data());
+          setData((data) => [...data, doc.data()]);
+          setRowSpanSize(Object.keys(doc.data().studentNames).length);
         });
       })
       .catch((err) => console.log(err));
   }, []);
+
+  console.log("data", data);
 
   return (
     <>
@@ -48,15 +53,19 @@ const Students = () => {
               </thead>
 
               <tbody>
-                {students.length ? (
-                  students.map((record, index) =>
-                    Object.keys({ ...record }).map((val, index) => (
-                      <StudentRow
-                        key={index}
-                        index={index}
-                        stdName={{ ...record }[index]}
-                      />
-                    ))
+                {data.length ? (
+                  data.map((record, index) =>
+                    Object.keys({ ...record }.studentNames).map(
+                      (val, index) => (
+                        <StudentRow
+                          key={index}
+                          index={index}
+                          stdName={{ ...record }.studentNames[index]}
+                          stdAvg={{ ...record }.averageMarks[index]}
+                          rowSpanSize={rowSpanSize}
+                        />
+                      )
+                    )
                   )
                 ) : (
                   <tr className="bg-white border-b h-24 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">

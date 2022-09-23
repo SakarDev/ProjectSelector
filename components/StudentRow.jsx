@@ -1,4 +1,4 @@
-const StudentRow = ({ index, stdName, stdAvg, groupAvg }) => {
+const StudentRow = ({ index, stdName, stdAvg, groupAvg, rowSpanSize }) => {
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
       <th
@@ -6,6 +6,7 @@ const StudentRow = ({ index, stdName, stdAvg, groupAvg }) => {
         className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
       >
         {index + 1}
+        {console.log('eraaaaaaaaaaa', rowSpanSize)}
       </th>
 
       <td>
