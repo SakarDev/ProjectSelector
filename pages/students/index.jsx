@@ -21,6 +21,7 @@ const Students = () => {
         snapShot.forEach((doc) => {
           setData((data) => [...data, doc.data()]);
           setRowSpanSize(Object.keys(doc.data().studentNames).length);
+          console.log(doc.data());
         });
       })
       .catch((err) => console.log(err));
@@ -68,7 +69,7 @@ const Students = () => {
                 ) : (
                   <tr className="bg-white border-b h-24 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td colSpan="5" className="text-center">
-                      No data Found.
+                      No data Found or still loading...
                     </td>
                   </tr>
                 )}

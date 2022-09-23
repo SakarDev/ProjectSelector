@@ -11,9 +11,11 @@ const SelectorRows = ({ index, stdName, stdAvg, groupAvg, rowSpanSize }) => {
       <td>
         <span className="badge bg-warning text-dark">{stdName}</span>
       </td>
-      <td>
-        <span className="badge bg-warning text-dark">{stdAvg}</span>
-      </td>
+      {index === 0 && (
+        <td rowSpan={rowSpanSize} className="text-center">
+          <span className="badge bg-warning text-dark">{stdAvg}</span>
+        </td>
+      )}
       {/* the styles breaks if per each row you add a td with rowSpan 3 so at the beggining of the group meaning index=0 this td only should be added ;) */}
       {index === 0 && (
         <td rowSpan={rowSpanSize} className="text-center">
