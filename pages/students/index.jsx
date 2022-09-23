@@ -19,7 +19,6 @@ const Students = () => {
       .then((snapShot) => {
         snapShot.forEach((doc) => {
           setData((data) => [...data, doc.data()]);
-          console.log(doc.data());
         });
       })
       .catch((err) => console.log(err));

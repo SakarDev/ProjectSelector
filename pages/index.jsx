@@ -57,10 +57,15 @@ export default function Home() {
         groupAverage = 0;
         averageMarks = 0;
       } else {
-        for (let i = 0; i < Object.keys(averageMarks).length; i++) {
-          groupAverage += averageMarks[i];
+        // the loop should go till the length of the studentNames object because the averageMarks object in some index may be undefined due to 3bwr
+        for (let i = 0; i < Object.keys(studentNames).length; i++) {
+          if (averageMarks[i]) {
+            groupAverage += averageMarks[i];
+          }
         }
+
         groupAverage /= Object.keys(averageMarks).length;
+
         groupAverage = groupAverage.toFixed(4);
       }
 
