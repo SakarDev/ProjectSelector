@@ -23,7 +23,7 @@ const Selector = () => {
 
   useEffect(() => {
     processFunction();
-  }, []);
+  }, [data]);
 
   function processFunction() {
     setData([]);
