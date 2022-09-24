@@ -15,11 +15,23 @@ const Students = () => {
 
   useEffect(() => {
     setData([]);
+    let copiedData = [];
+
     getStudents()
       .then((snapShot) => {
         snapShot.forEach((doc) => {
-          setData((data) => [...data, doc.data()]);
+          let d = doc.data();
+          d.id = doc.id;
+          copiedData = [...copiedData, d];
         });
+        const dataToSort = [...copiedData];
+        dataToSort.sort(
+          (a, b) => Number(b.groupAverage) - Number(a.groupAverage)
+        );
+
+        copiedData = dataToSort;
+        console.log(copiedData);
+        setData(copiedData);
       })
       .catch((err) => console.log(err));
   }, []);
