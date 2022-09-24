@@ -33,6 +33,7 @@ const Selector = () => {
 
   function processFunction() {
     setData([]);
+    dataToExport.current = [];
     let copiedData = [];
     getStudents()
       .then((snapShot) => {
