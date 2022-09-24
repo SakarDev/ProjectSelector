@@ -26,7 +26,9 @@ export default function Home() {
   };
 
   // whenever data changes (meaning new excel file is uploaded), save to firebase
-  useEffect(() => data.length && addDataToFirebase(data), [data]);
+  useEffect(() => {
+    data.length && addDataToFirebase(data);
+  }, [data]);
 
   async function addDataToFirebase(data) {
     try {
@@ -54,7 +56,7 @@ export default function Home() {
         //   : null;
       }
 
-      if (!Object.keys(averageMarks).length) {
+      if (!Object.keys(averageMarks)?.length) {
         groupAverage = 0;
         averageMarks = 0;
       } else {
