@@ -1,5 +1,5 @@
 import SelectorRows from "../../components/SelectorRows";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
@@ -7,7 +7,7 @@ import { utils, writeFile } from "xlsx";
 
 const Selector = () => {
   const [data, setData] = useState([]);
-  var dataToExport = useRef([]);
+  var dataToExport = [];
 
   async function getStudents() {
     const q = query(collection(db, "submitedForm"));
@@ -27,7 +27,6 @@ const Selector = () => {
 
   function processFunction() {
     setData([]);
-    dataToExport.current = [];
     let copiedData = [];
     getStudents()
       .then((snapShot) => {
@@ -97,17 +96,14 @@ const Selector = () => {
     data.length &&
       data.forEach((item) => {
         Object.keys({ ...item }.studentNames).forEach((key) => {
-          dataToExport.current.push([
+          dataToExport.push([
             { ...item }.studentNames[key],
             { ...item }.selectedProject,
           ]);
         });
       });
 
-    utils.sheet_add_json(ws, dataToExport.current, {
-      origin: "A2",
-      skipHeader: true,
-    });
+    utils.sheet_add_json(ws, dataToExport, { origin: "A2", skipHeader: true });
     utils.book_append_sheet(wb, ws, "Report");
     writeFile(wb, "Project Selector.xlsx");
   };
