@@ -45,8 +45,10 @@ export default function Home() {
         projectNumber[i] = data[i].Project_number;
 
         // this check is performed to avoid the error of undefined
-        studentNames[i] = data?.[i]?.Student_names ?? null;
-        averageMarks[i] = data?.[i]?.Average_marks ?? null;
+        if (data?.[i]?.Student_names)
+          studentNames[i] = data?.[i]?.Student_names ?? null;
+        if (data?.[i]?.Average_marks)
+          averageMarks[i] = data?.[i]?.Average_marks ?? null;
 
         // data[i]?.Student_names
         //   ? (studentNames[i] = data[i].Student_names)
