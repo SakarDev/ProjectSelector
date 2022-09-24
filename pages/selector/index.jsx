@@ -6,6 +6,7 @@ import { doc, updateDoc } from "firebase/firestore";
 
 const Selector = () => {
   const [data, setData] = useState([]);
+  const [counter, setCounter] = useState(1);
 
   async function getStudents() {
     const q = query(collection(db, "submitedForm"));
@@ -123,11 +124,12 @@ const Selector = () => {
 
               <tbody>
                 {data.length ? (
-                  data.map((record, index) =>
+                  data.map((record, index1) =>
                     Object.keys({ ...record }.studentNames).map(
                       (val, index) => (
                         <SelectorRows
                           key={index}
+                          id={index}
                           index={index}
                           stdName={{ ...record }.studentNames[index]}
                           selectedProj={{ ...record }.selectedProject}
