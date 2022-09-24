@@ -21,9 +21,9 @@ const Selector = () => {
     });
   }
 
-  useEffect(() => {
-    processFunction();
-  }, [data]);
+  // useEffect(() => {
+  //   processFunction();
+  // }, [data]);
 
   function processFunction() {
     setData([]);
