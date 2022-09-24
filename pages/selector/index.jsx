@@ -1,5 +1,5 @@
 import SelectorRows from "../../components/SelectorRows";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
@@ -21,9 +21,9 @@ const Selector = () => {
     });
   }
 
-  useEffect(() => {
-    processFunction();
-  }, [data]);
+//   useEffect(() => {
+//     processFunction();
+//   }, [data]);
 
   function processFunction() {
     setData([]);
