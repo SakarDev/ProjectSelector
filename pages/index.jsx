@@ -26,9 +26,7 @@ export default function Home() {
   };
 
   // whenever data changes (meaning new excel file is uploaded), save to firebase
-  useEffect(() => {
-    data.length && addDataToFirebase(data);
-  }, [data]);
+  useEffect(() => data.length && addDataToFirebase(data), [data]);
 
   async function addDataToFirebase(data) {
     try {
@@ -45,15 +43,18 @@ export default function Home() {
         projectNumber[i] = data[i].Project_number;
 
         // this check is performed to avoid the error of undefined
-        data[i]?.Student_names
-          ? (studentNames[i] = data[i].Student_names)
-          : null;
-        data[i]?.Average_marks
-          ? (averageMarks[i] = data[i].Average_marks)
-          : null;
+        studentNames[i] = data?.[i]?.Student_names ?? null;
+        averageMarks[i] = data?.[i]?.Average_marks ?? null;
+
+        // data[i]?.Student_names
+        //   ? (studentNames[i] = data[i].Student_names)
+        //   : null;
+        // data[i]?.Average_marks
+        //   ? (averageMarks[i] = data[i].Average_marks)
+        //   : null;
       }
 
-      if (Object.keys(averageMarks).length === 0) {
+      if (!Object.keys(averageMarks).length) {
         groupAverage = 0;
         averageMarks = 0;
       } else {
@@ -65,7 +66,6 @@ export default function Home() {
         }
 
         groupAverage /= Object.keys(averageMarks).length;
-
         groupAverage = groupAverage.toFixed(4);
       }
 
