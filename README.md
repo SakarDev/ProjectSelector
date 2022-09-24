@@ -1,4 +1,4 @@
-# Selecting 4th stage projects can be a boring task, i created a system that you can import excel submission file to it and then process on it based on each group of student's average mark.
+Selecting 4th stage projects can be a boring task, i created a system that you can import excel submission file to it and then process on it based on each group of student's average mark.
 
 
 
