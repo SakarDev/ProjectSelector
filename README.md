@@ -1,42 +1,22 @@
-Selecting 4th stage projects can be a boring task, i created a system that you can import excel submission file to it and then process on it based on each group of student's average mark.
+# Project Selector
+
+Koya University's Software Engineering department engages its final year students (4th stage) in a unique process to allocate final year research projects. This allocation is integral to their Bachelor's degree, as the chosen project becomes the centerpiece of their final year research.
+
+## Project Selection and Group Formation
+At the beginning of each academic year, the university provides a list of project titles, each with a corresponding number. The students then form groups, which can comprise 2 or 3 students, or more, depending on the total number of projects and students for that year.
+
+## Priority Form Filling
+Once the groups are formed, each group fills out a form, listing their project preferences. The project they desire most is listed at the top, and the list descends in order of preference. The least desired project ends up at the bottom of their list.
 
 
+## Role of 3rd Stage Grades
+A unique aspect of project allocation at Koya University is the incorporation of the students' academic performance from the previous year. The final grades of the 3rd stage for each student in a group are collected and averaged. This average grade then plays a crucial role in the allocation of projects.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Allocation Process
+The allocation of projects follows a rank-order process:
+- The group with the highest average grade from their 3rd stage gets their top preferred project from the list they filled out.
+- Once a project is allocated to a group, it is removed from the pool of available projects.
+- The allocation process continues with the group having the next highest average grade, and they receive their top choice from the remaining projects.
+- This process repeats until all projects are allocated, with each group receiving their highest-preferred project still available at the time of their turn.
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-# Porject-Selector-Front
-
-This is the user interface of project selector for 4th stage students.
+This allocation strategy ensures a fair distribution of projects based on academic performance, while also considering the project preferences of each group. It adds a level of incentive for groups to strive for better grades in the 3rd stage, knowing that their performance will directly affect their final year project allocation.
